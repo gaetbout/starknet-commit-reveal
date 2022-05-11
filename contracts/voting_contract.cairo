@@ -17,17 +17,16 @@ func vote_per_response_storage(name : felt) -> (number_of_vote : felt):
 end
 
 @view
-func view_get_keccak_hash{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
-    random_number : felt, value_to_hash : felt
-) -> (hashed_value : Uint256):
+func view_get_keccak_hash{
+    syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr, bitwise_ptr : BitwiseBuiltin*
+}(salt : felt, value_to_hash : felt) -> (hashed_value : Uint256):
     alloc_locals
 
-    let (local bitwise_ptr : BitwiseBuiltin*) = alloc()
     let (local keccak_ptr : felt*) = alloc()
     let (local arr : felt*) = alloc()
-    assert arr[0] = random_number  # salt
-    assert arr[1] = value_to_hash  # actual value
-    let (hashed_value) = keccak_felts{bitwise_ptr=bitwise_ptr, keccak_ptr=keccak_ptr}(2, arr)
+    assert arr[0] = salt
+    assert arr[1] = value_to_hash
+    let (hashed_value) = keccak_felts{keccak_ptr=keccak_ptr}(2, arr)
     return (hashed_value)
 end
 
