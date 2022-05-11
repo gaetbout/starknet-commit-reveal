@@ -2,7 +2,7 @@
 %lang starknet
 
 from starkware.cairo.common.cairo_builtins import HashBuiltin
-from starkware.cairo.common.cairo_keccak.keccak import keccak_felts
+from starkware.cairo.common.cairo_keccak.keccak import keccak_felts, finalize_keccak
 from starkware.cairo.common.alloc import alloc
 from starkware.cairo.common.cairo_builtins import BitwiseBuiltin
 from starkware.cairo.common.uint256 import Uint256, uint256_eq
@@ -22,11 +22,13 @@ func view_get_keccak_hash{
     syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr, bitwise_ptr : BitwiseBuiltin*
 }(salt : felt, value_to_hash : felt) -> (hashed_value : Uint256):
     alloc_locals
-    let (local keccak_ptr : felt*) = alloc()
+    let (local keccak_ptr_start) = alloc()
+    let keccak_ptr = keccak_ptr_start
     let (local arr : felt*) = alloc()
     assert arr[0] = salt
     assert arr[1] = value_to_hash
     let (hashed_value) = keccak_felts{keccak_ptr=keccak_ptr}(2, arr)
+    finalize_keccak(keccak_ptr_start=keccak_ptr_start, keccak_ptr_end=keccak_ptr)
     return (hashed_value)
 end
 
