@@ -7,6 +7,7 @@ from starkware.cairo.common.alloc import alloc
 from starkware.cairo.common.cairo_builtins import BitwiseBuiltin
 from starkware.cairo.common.uint256 import Uint256, uint256_eq
 from starkware.starknet.common.syscalls import get_caller_address
+from starkware.cairo.common.bool import TRUE, FALSE
 
 @storage_var
 func caller_address_hash_storage(address : felt) -> (hashed_response : Uint256):
@@ -21,7 +22,6 @@ func view_get_keccak_hash{
     syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr, bitwise_ptr : BitwiseBuiltin*
 }(salt : felt, value_to_hash : felt) -> (hashed_value : Uint256):
     alloc_locals
-
     let (local keccak_ptr : felt*) = alloc()
     let (local arr : felt*) = alloc()
     assert arr[0] = salt
@@ -54,15 +54,22 @@ func commit_hash{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_p
 end
 
 @external
-func reveal{syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr}(
-    number : felt, response : felt
-):
+func reveal{
+    syscall_ptr : felt*, pedersen_ptr : HashBuiltin*, range_check_ptr, bitwise_ptr : BitwiseBuiltin*
+}(number : felt, response : felt):
     alloc_locals
     let (caller_address) = get_caller_address()
     let (committed_hash) = caller_address_hash_storage.read(caller_address)
+    let (is_eq_to_zero) = uint256_eq(committed_hash, Uint256(0, 0))
+    with_attr error_message("You should first commit something"):
+        assert is_eq_to_zero = FALSE
+    end
     let (current_hash) = view_get_keccak_hash(number, response)
     let (is_eq) = uint256_eq(current_hash, committed_hash)
-    assert is_eq = 1
+    with_attr error_message("You are trying to cheat"):
+        assert is_eq = TRUE
+    end
+    caller_address_hash_storage.write(caller_address, Uint256(0, 0))
     let (current_number_of_vote) = vote_per_response_storage.read(response)
     vote_per_response_storage.write(response, current_number_of_vote + 1)
     return ()

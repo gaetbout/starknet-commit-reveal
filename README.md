@@ -16,7 +16,7 @@ This pattern is splitted in two steps:
 ## Commit
 The user calls the method with a hashed value of the reponse.  
 This hashed response needs to be done with some random value as salt. Why?  
-Otherwise the oponent could just read the transaction and then hash it (for example in a simple rock, cisor, paper it is quite easy to figure out the hashed value of these moves).
+Otherwise the oponent could just read the transaction and then hash it (for example in a simple rock, cisor, paper it is quite easy to figure out the hashed value of these moves).  
 It is important to note that the random value shouldn't be something the that can be easily discovered such as a timestamp, the address of the user, ...  
 There exists some more complex version where the user first send the hash of a random number that the contract combine with the current block hash to generate some randomness, but let's keep it simple.
 
@@ -26,7 +26,8 @@ Now the user will just send the random number and his response and the contract 
 ## Example contract
 To make it the simplest possible, this contract will just be a voting system.  
 Where user first have to submit their hashed response then they have to reveal it.  
-It'll then add 1 vote for that value
+It'll then add 1 vote for that value.  
+Each user can vote as much as they want (very democratic, I know!).
 
 ## Addition
 I made here a very simple version of the commit reveal.  
