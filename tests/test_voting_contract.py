@@ -2,7 +2,7 @@
 import os
 import pytest
 from starkware.starknet.testing.starknet import Starknet
-from utils import (str_to_felt)
+from utils import (str_to_felt, assert_revert)
 
 CONTRACT_FILE = os.path.join("contracts", "voting_contract.cairo")
 SALT = 42
@@ -43,9 +43,7 @@ async def test_view_get_hash_for_nothing_committed(contract, caller_address):
 
 @pytest.mark.asyncio
 async def test_reveal_with_nothing_committed(contract, caller_address):
-    with pytest.raises(Exception) as execution_info:
-        await contract.reveal(1,1).invoke()
-    assert "You should first commit something" in execution_info.value.args[1]["message"]
+    await assert_revert(contract.reveal(1,1).invoke(), "You should first commit something")
     
 
 @pytest.mark.asyncio
@@ -69,7 +67,5 @@ async def test_reveal_value_reset(contract, caller_address):
 @pytest.mark.asyncio
 async def test_reveal_Cheating(contract, caller_address):
     await contract.commit_hash(HASHED_VALUE).invoke(caller_address)
-    with pytest.raises(Exception) as execution_info:
-        await contract.reveal(SALT-1, STR_AS_FELT).invoke(caller_address)
-    assert "You are trying to cheat" in execution_info.value.args[1]["message"]
+    await assert_revert(contract.reveal(SALT-1, STR_AS_FELT).invoke(caller_address), "You are trying to cheat")
     
