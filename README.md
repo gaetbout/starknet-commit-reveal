@@ -1,3 +1,5 @@
+![Tests](https://github.com/gaetbout/starknet-array-manipulation/actions/workflows/python-app.yml/badge.svg)
+
 # Commit reveal
 
 As you probably know, everything on the blockchain is public.  
