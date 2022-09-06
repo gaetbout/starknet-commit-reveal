@@ -26,12 +26,12 @@ async def caller_address():
 
 @pytest.mark.asyncio
 async def test_view_get_keccak_hash(contract):
-    execution_info = await contract.view_get_keccak_hash(salt=SALT, value_to_hash=STR_AS_FELT).invoke()
+    execution_info = await contract.view_get_keccak_hash(salt=SALT, value_to_hash=STR_AS_FELT).execute()
     assert execution_info.result.hashed_value == HASHED_VALUE
 
 @pytest.mark.asyncio
 async def test_commit_hash(contract, caller_address):
-    await contract.commit_hash(HASHED_VALUE).invoke(caller_address)
+    await contract.commit_hash(HASHED_VALUE).execute(caller_address)
     execution_info = await contract.view_get_hash_for(caller_address).call()
     assert execution_info.result.hashed_response == HASHED_VALUE
     
@@ -43,29 +43,29 @@ async def test_view_get_hash_for_nothing_committed(contract, caller_address):
 
 @pytest.mark.asyncio
 async def test_reveal_with_nothing_committed(contract, caller_address):
-    await assert_revert(contract.reveal(1,1).invoke(), "You should first commit something")
+    await assert_revert(contract.reveal(1,1).execute(), "You should first commit something")
     
 
 @pytest.mark.asyncio
 async def test_reveal(contract, caller_address):
-    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).invoke()
+    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).execute()
     assert execution_info.result.number_of_vote == 0
-    await contract.commit_hash(HASHED_VALUE).invoke(caller_address)
-    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).invoke()
+    await contract.commit_hash(HASHED_VALUE).execute(caller_address)
+    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).execute()
     assert execution_info.result.number_of_vote == 0
-    await contract.reveal(SALT, STR_AS_FELT).invoke(caller_address)
-    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).invoke()
+    await contract.reveal(SALT, STR_AS_FELT).execute(caller_address)
+    execution_info = await contract.view_get_vote_per_response(STR_AS_FELT).execute()
     assert execution_info.result.number_of_vote == 1
 
 @pytest.mark.asyncio
 async def test_reveal_value_reset(contract, caller_address):
-    await contract.commit_hash(HASHED_VALUE).invoke(caller_address)
-    await contract.reveal(SALT, STR_AS_FELT).invoke(caller_address)
+    await contract.commit_hash(HASHED_VALUE).execute(caller_address)
+    await contract.reveal(SALT, STR_AS_FELT).execute(caller_address)
     execution_info = await contract.view_get_hash_for(caller_address).call()
     assert execution_info.result.hashed_response == (0,0)
 
 @pytest.mark.asyncio
 async def test_reveal_Cheating(contract, caller_address):
-    await contract.commit_hash(HASHED_VALUE).invoke(caller_address)
-    await assert_revert(contract.reveal(SALT-1, STR_AS_FELT).invoke(caller_address), "You are trying to cheat")
+    await contract.commit_hash(HASHED_VALUE).execute(caller_address)
+    await assert_revert(contract.reveal(SALT-1, STR_AS_FELT).execute(caller_address), "You are trying to cheat")
     
