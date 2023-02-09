@@ -1,12 +1,12 @@
 #[contract]
 mod VotingContract {
-    use starknet::get_caller_address;
+
     struct Storage {
         caller_address_hash: LegacyMap::<felt, felt>,
         vote_per_response: LegacyMap::<felt, felt>,
+        caller_address: felt,
     }
 
-    // TODO Should prob mock get_caller_address
     #[view]
     fn hash_salt_with_value(salt: felt, value_to_hash: felt) -> felt {
         pedersen(salt, value_to_hash)
@@ -24,9 +24,7 @@ mod VotingContract {
 
     #[external]
     fn commit_hash(hash: felt) {
-        let caller = get_caller_address();
-        debug::print_felt(caller);
-        caller_address_hash::write(caller, hash);
+        caller_address_hash::write(get_caller_address(), hash);
     }
 
     #[external]
@@ -38,5 +36,15 @@ mod VotingContract {
         assert(current_hash == committed_hash, 'You are trying to cheat');
         caller_address_hash::write(caller_address, 0);
         vote_per_response::write(response, vote_per_response::read(response) + 1);
+    }
+
+
+    // Temp functions while the get_caller_address syscall doesn't work
+    fn get_caller_address() -> felt {
+        caller_address::read()
+    }
+
+    fn set_caller_address(caller_address: felt) {
+        caller_address::write(caller_address);
     }
 }
