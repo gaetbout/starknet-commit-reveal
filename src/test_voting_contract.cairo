@@ -43,13 +43,13 @@ fn test_reveal_with_nothing_committed() {
 #[available_gas(2000000)]
 fn test_reveal() {
     set_caller_address(5);
-    let mut a = VotingContract::get_vote_per_response(VALUE_TO_SALT);
+    let mut a = VotingContract::get_vote_for_response(VALUE_TO_SALT);
     assert(a == 0, 'Hash should be zero');
     VotingContract::commit_hash(PEDERSEN_HASH);
-    a = VotingContract::get_vote_per_response(VALUE_TO_SALT);
+    a = VotingContract::get_vote_for_response(VALUE_TO_SALT);
     assert(a == 0, 'Hash should be zero');
     VotingContract::reveal(SALT, VALUE_TO_SALT);
-    a = VotingContract::get_vote_per_response(VALUE_TO_SALT);
+    a = VotingContract::get_vote_for_response(VALUE_TO_SALT);
     assert(a == 1, 'Hash should be one');
 }
 

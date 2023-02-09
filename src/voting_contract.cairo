@@ -2,7 +2,7 @@
 mod VotingContract {
     struct Storage {
         caller_address_hash: Map::<felt, felt>,
-        vote_per_response: Map::<felt, felt>,
+        vote_for_response: Map::<felt, felt>,
         caller_address: felt,
     }
 
@@ -12,8 +12,8 @@ mod VotingContract {
     }
 
     #[view]
-    fn get_vote_per_response(response: felt) -> felt {
-        vote_per_response::read(response)
+    fn get_vote_for_response(response: felt) -> felt {
+        vote_for_response::read(response)
     }
 
     #[view]
@@ -34,7 +34,7 @@ mod VotingContract {
         let current_hash = hash_salt_with_value(number, response);
         assert(current_hash == committed_hash, 'You are trying to cheat');
         caller_address_hash::write(caller_address, 0);
-        vote_per_response::write(response, vote_per_response::read(response) + 1);
+        vote_for_response::write(response, vote_for_response::read(response) + 1);
     }
 
 
