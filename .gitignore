@@ -4,3 +4,7 @@ artifacts
 tests/__pycache__
 goerli.deployments.txt
 .vscode
+
+# Added by cargo
+
+/target
