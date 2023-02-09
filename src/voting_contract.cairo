@@ -1,8 +1,8 @@
 #[contract]
 mod VotingContract {
     struct Storage {
-        caller_address_hash: LegacyMap::<felt, felt>,
-        vote_per_response: LegacyMap::<felt, felt>,
+        caller_address_hash: Map::<felt, felt>,
+        vote_per_response: Map::<felt, felt>,
         caller_address: felt,
     }
 
