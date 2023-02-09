@@ -355,9 +355,7 @@ dependencies = [
  "cairo-lang-filesystem",
  "cairo-lang-parser",
  "cairo-lang-syntax",
- "cairo-lang-test-utils",
  "cairo-lang-utils",
- "env_logger",
  "indexmap",
  "indoc",
  "itertools",
@@ -631,7 +629,6 @@ dependencies = [
  "regex",
  "salsa",
  "serde",
- "sha3",
  "smol_str",
  "test-case",
  "test-log",
@@ -659,6 +656,7 @@ version = "1.0.0-alpha.2"
 dependencies = [
  "cairo-lang-eq-solver",
  "cairo-lang-sierra",
+ "cairo-lang-sierra-ap-change",
  "cairo-lang-test-utils",
  "cairo-lang-utils",
  "env_logger",
@@ -689,7 +687,6 @@ dependencies = [
  "cairo-lang-utils",
  "env_logger",
  "id-arena",
- "indexmap",
  "indoc",
  "itertools",
  "log",
@@ -706,7 +703,6 @@ name = "cairo-lang-sierra-to-casm"
 version = "1.0.0-alpha.2"
 dependencies = [
  "assert_matches",
- "cairo-felt",
  "cairo-lang-casm",
  "cairo-lang-sierra",
  "cairo-lang-sierra-ap-change",
@@ -752,7 +748,6 @@ dependencies = [
  "genco",
  "indoc",
  "itertools",
- "lazy_static",
  "log",
  "num-bigint",
  "num-integer",
@@ -778,6 +773,7 @@ dependencies = [
  "pretty_assertions",
  "salsa",
  "smol_str",
+ "substring",
  "test-log",
 ]
 
@@ -2607,6 +2603,15 @@ name = "strsim"
 version = "0.10.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "73473c0e59e6d5812c5dfe2a064a6444949f089e20eec9a2e5506596494e4623"
+
+[[package]]
+name = "substring"
+version = "1.4.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "42ee6433ecef213b2e72f587ef64a2f5943e7cd16fbd82dbe8bc07486c534c86"
+dependencies = [
+ "autocfg",
+]
 
 [[package]]
 name = "subtle"
