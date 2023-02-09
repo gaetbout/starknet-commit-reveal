@@ -1,4 +1,28 @@
-![Tests](https://github.com/gaetbout/starknet-commit-reveal/actions/workflows/pytest-action.yml/badge.svg)  [![Twitter URL](https://img.shields.io/twitter/url.svg?label=Follow%20%40gaetbout&style=social&url=https%3A%2F%2Ftwitter.com%2Fgaetbout)](https://twitter.com/gaetbout)
+[![Twitter URL](https://img.shields.io/twitter/url.svg?label=Follow%20%40gaetbout&style=social&url=https%3A%2F%2Ftwitter.com%2Fgaetbout)](https://twitter.com/gaetbout)
+# How to install
+
+**Prerequisit:** Have cargo installed
+
+Clone this repository and move into the repository:
+```
+git clone https://github.com/gaetbout/starknet-commit-reveal
+cd starknet-commit-reveal
+```
+Clone Starkware's repo
+```
+git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.2 
+```
+Build the project
+```
+cargo build
+```
+
+You can now run the tests using:
+```
+cargo run --bin cairo-test -- --starknet --path src      
+```
+
+As get_caller_address isn't useable yet, I had to use a cheat to make it available... (Should be removed in the future)
 
 # Commit reveal
 
