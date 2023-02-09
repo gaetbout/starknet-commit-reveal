@@ -2,8 +2,9 @@ use src::VotingContract;
 
 const SALT: felt = 42;
 const VALUE_TO_SALT: felt = 'lama';
-const PEDERSEN_HASH: felt =
-    100345159373659504674655006899959215960779660001895611658152852923411626331;
+
+// Computed using: https://www.stark-utils.xyz/signature
+const PEDERSEN_HASH: felt = 0x38cb18d2caa96cd242db94dbc924881817745fb1bb1ecc15d5dbd0e8bc795b;
 
 #[test]
 #[available_gas(2000000)]
