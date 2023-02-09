@@ -2,11 +2,9 @@ use src::VotingContract;
 
 const SALT: felt = 42;
 const VALUE_TO_SALT: felt = 'lama';
-const PEDERSEN_HASH: felt = 100345159373659504674655006899959215960779660001895611658152852923411626331;
+const PEDERSEN_HASH: felt =
+    100345159373659504674655006899959215960779660001895611658152852923411626331;
 
-fn set_caller_address(val: felt){
-    VotingContract::set_caller_address(val);
-}
 #[test]
 #[available_gas(2000000)]
 fn test_hash_salt_with_value() {
@@ -37,7 +35,7 @@ fn test_get_hash_for_nothing_committed() {
 #[should_panic(expected = 'You should first commit something')]
 fn test_reveal_with_nothing_committed() {
     set_caller_address(4);
-    VotingContract::reveal(1,1);
+    VotingContract::reveal(1, 1);
 }
 
 #[test]
@@ -70,5 +68,10 @@ fn test_reveal_value_reset() {
 fn test_reveal_Cheating() {
     set_caller_address(7);
     VotingContract::commit_hash(PEDERSEN_HASH);
-    VotingContract::reveal(SALT-1, VALUE_TO_SALT);
+    VotingContract::reveal(SALT - 1, VALUE_TO_SALT);
+}
+
+// Utils func shorthand
+fn set_caller_address(val: felt) {
+    VotingContract::set_caller_address(val);
 }

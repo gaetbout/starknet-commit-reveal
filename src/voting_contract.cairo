@@ -1,6 +1,5 @@
 #[contract]
 mod VotingContract {
-
     struct Storage {
         caller_address_hash: LegacyMap::<felt, felt>,
         vote_per_response: LegacyMap::<felt, felt>,
@@ -28,7 +27,7 @@ mod VotingContract {
     }
 
     #[external]
-    fn reveal(number: felt, response: felt) { 
+    fn reveal(number: felt, response: felt) {
         let caller_address = get_caller_address();
         let committed_hash = caller_address_hash::read(caller_address);
         assert(committed_hash != 0, 'No hash committed');
