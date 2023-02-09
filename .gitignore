@@ -5,6 +5,7 @@ tests/__pycache__
 goerli.deployments.txt
 .vscode
 
+cairo/
 # Added by cargo
 
 /target
