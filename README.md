@@ -22,6 +22,8 @@ You can now run the tests using:
 cargo run --bin cairo-test -- --starknet --path src      
 ```
 
+As get_caller_address isn't useable yet, I had to use a cheat to make it available... (Should be removed in the future)
+
 # Commit reveal
 
 As you probably know, everything on the blockchain is public.  
