@@ -1,9 +1,10 @@
 #[contract]
 mod VotingContract {
+    use starknet::get_caller_address;
+
     struct Storage {
-        caller_address_hash: Map::<felt, felt>,
-        vote_for_response: Map::<felt, felt>,
-        caller_address: felt,
+        caller_address_hash: LegacyMap::<ContractAddress, felt>,
+        vote_for_response: LegacyMap::<felt, felt>,
     }
 
     #[view]
@@ -17,7 +18,7 @@ mod VotingContract {
     }
 
     #[view]
-    fn get_hash_for(address: felt) -> felt {
+    fn get_hash_for(address: ContractAddress) -> felt {
         caller_address_hash::read(address)
     }
 
@@ -35,15 +36,5 @@ mod VotingContract {
         assert(current_hash == committed_hash, 'You are trying to cheat');
         caller_address_hash::write(caller_address, 0);
         vote_for_response::write(response, vote_for_response::read(response) + 1);
-    }
-
-
-    // Temp functions while the get_caller_address syscall doesn't work
-    fn get_caller_address() -> felt {
-        caller_address::read()
-    }
-
-    fn set_caller_address(caller_address: felt) {
-        caller_address::write(caller_address);
     }
 }
