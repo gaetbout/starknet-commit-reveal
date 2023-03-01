@@ -4,25 +4,23 @@
 **Prerequisit:** Have cargo installed
 
 Clone this repository and move into the repository:
-```
+```shell
 git clone https://github.com/gaetbout/starknet-commit-reveal
 cd starknet-commit-reveal
 ```
 Clone Starkware's repo
-```
-git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.2 
+```shell
+git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.3 
 ```
 Build the project
-```
+```shell
 cargo build
 ```
 
 You can now run the tests using:
-```
+```shell
 cargo run --bin cairo-test -- --starknet --path src      
 ```
-
-As get_caller_address isn't useable yet, I had to use a cheat to make it available... (Should be removed in the future)
 
 # Commit reveal
 
