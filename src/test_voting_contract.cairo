@@ -1,5 +1,5 @@
 use src::VotingContract;
-use starknet_testing::set_caller_address;
+use starknet::testing::set_caller_address;
 use traits::TryInto;
 use starknet::FeltTryIntoContractAddress;
 use option::OptionTrait;
@@ -37,7 +37,7 @@ fn test_get_hash_for_nothing_committed() {
 
 #[test]
 #[available_gas(2000000)]
-#[should_panic(expected = 'You should first commit something')]
+#[should_panic(expected = ('No hash committed', ))]
 fn test_reveal_with_nothing_committed() {
     set_caller_address(felt_to_contract_address(4));
     VotingContract::reveal(1, 1);
@@ -69,7 +69,7 @@ fn test_reveal_value_reset() {
 
 #[test]
 #[available_gas(2000000)]
-#[should_panic(expected = 'You should first commit something')]
+#[should_panic(expected = ('You are trying to cheat', ))]
 fn test_reveal_Cheating() {
     set_caller_address(felt_to_contract_address(7));
     VotingContract::commit_hash(PEDERSEN_HASH);
