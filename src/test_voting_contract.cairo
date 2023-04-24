@@ -1,14 +1,14 @@
 use src::VotingContract;
 use starknet::testing::set_caller_address;
-use traits::TryInto;
-use starknet::FeltTryIntoContractAddress;
+use starknet::ContractAddress;
+use starknet::contract_address_try_from_felt252;
 use option::OptionTrait;
 
-const SALT: felt = 42;
-const VALUE_TO_SALT: felt = 'lama';
+const SALT: felt252 = 42;
+const VALUE_TO_SALT: felt252 = 'lama';
 
 // Computed using: https://www.stark-utils.xyz/signature
-const PEDERSEN_HASH: felt = 0x38cb18d2caa96cd242db94dbc924881817745fb1bb1ecc15d5dbd0e8bc795b;
+const PEDERSEN_HASH: felt252 = 0x38cb18d2caa96cd242db94dbc924881817745fb1bb1ecc15d5dbd0e8bc795b;
 
 #[test]
 #[available_gas(2000000)]
@@ -37,7 +37,7 @@ fn test_get_hash_for_nothing_committed() {
 
 #[test]
 #[available_gas(2000000)]
-#[should_panic(expected = ('No hash committed', ))]
+#[should_panic(expected: ('No hash committed', ))]
 fn test_reveal_with_nothing_committed() {
     set_caller_address(felt_to_contract_address(4));
     VotingContract::reveal(1, 1);
@@ -69,13 +69,13 @@ fn test_reveal_value_reset() {
 
 #[test]
 #[available_gas(2000000)]
-#[should_panic(expected = ('You are trying to cheat', ))]
+#[should_panic(expected: ('You are trying to cheat', ))]
 fn test_reveal_Cheating() {
     set_caller_address(felt_to_contract_address(7));
     VotingContract::commit_hash(PEDERSEN_HASH);
     VotingContract::reveal(SALT - 1, VALUE_TO_SALT);
 }
 
-fn felt_to_contract_address(f: felt) -> ContractAddress {
-    f.try_into().unwrap()
+fn felt_to_contract_address(f: felt252) -> ContractAddress {
+    contract_address_try_from_felt252(f).unwrap()
 }

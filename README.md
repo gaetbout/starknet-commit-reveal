@@ -10,16 +10,16 @@ cd starknet-commit-reveal
 ```
 Clone Starkware's repo
 ```shell
-git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.3 
+git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.7
 ```
 Build the project
 ```shell
-cargo build
+cargo build --release --bin cairo-test --manifest-path cairo/Cargo.toml
 ```
 
 You can now run the tests using:
 ```shell
-cargo run --bin cairo-test -- --starknet --path src      
+./cairo/target/release/cairo-test . --starknet
 ```
 
 # Commit reveal
