@@ -1,0 +1,10 @@
+[package]
+name = "commit_reveal"
+version = "0.1.0"
+
+[dependencies]
+starknet = "2.3.0"
+
+[tool.fmt]
+max-line-length = 120
+sort-module-level-items = true

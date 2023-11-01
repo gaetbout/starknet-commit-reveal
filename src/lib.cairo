@@ -1,4 +1,6 @@
 mod voting_contract;
-use voting_contract::VotingContract;
 
-mod test_voting_contract;
+#[cfg(test)]
+mod tests {
+    mod voting_contract;
+}

@@ -1,11 +1,2 @@
-node.json
-accounts.json
-artifacts
-tests/__pycache__
-goerli.deployments.txt
 .vscode
-
-cairo/
-# Added by cargo
-
-/target
+target/
