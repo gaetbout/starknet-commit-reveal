@@ -1,25 +1,11 @@
 [![Twitter URL](https://img.shields.io/twitter/url.svg?label=Follow%20%40gaetbout&style=social&url=https%3A%2F%2Ftwitter.com%2Fgaetbout)](https://twitter.com/gaetbout)
-# How to install
+# Installation
 
-**Prerequisit:** Have cargo installed
+**Prerequisit:** Have scarb installed with adsf
 
-Clone this repository and move into the repository:
+Scarb should automatically detect which version needs to be used. You can run:
 ```shell
-git clone https://github.com/gaetbout/starknet-commit-reveal
-cd starknet-commit-reveal
-```
-Clone Starkware's repo
-```shell
-git clone https://github.com/starkware-libs/cairo --depth=1 --branch v1.0.0-alpha.7
-```
-Build the project
-```shell
-cargo build --release --bin cairo-test --manifest-path cairo/Cargo.toml
-```
-
-You can now run the tests using:
-```shell
-./cairo/target/release/cairo-test . --starknet
+scarb test
 ```
 
 # Commit reveal
